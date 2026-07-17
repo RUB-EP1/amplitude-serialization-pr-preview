@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lc2ppik-lhcb-2683025 – Amplitude model serialization</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../_images/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-65ab6f6afcc98c2005f3bec1c5e98b7d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-a515e054079012129989d5397ee3c9c1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-65ab6f6afcc98c2005f3bec1c5e98b7d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../_images/demos-icon.svg" alt="Democratizing Models" class="navbar-logo light-content">
+    <img src="../_images/demos-icon.svg" alt="Democratizing Models" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Amplitude model serialization</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../description.html"> 
+<span class="menu-text">Format description</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../HS3.html"> 
+<span class="menu-text">Compatibility with HS3</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/RUB-EP1/amplitude-serialization"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../python/lc2ppik-lhcb-2683025.html">Python</a></li><li class="breadcrumb-item"><a href="../python/lc2ppik-lhcb-2683025.html"><span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Julia</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../julia/lc2ppik-lhcb-2683025.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../julia/lb2pkg-lhcb-2765817.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(\Lambda_b^0 \to p K^- \gamma\)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../julia/x2pipipi-compass-1391643.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(X\to \pi^-\pi^+\pi^-\)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Python</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../python/lc2ppik-lhcb-2683025.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../python/lb2pkg-lhcb-2765817.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(\Lambda_b^0 \to p K^- \gamma\)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../python/x2pipipi-compass-1391643.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(X\to \pi^-\pi^+\pi^-\)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lambda_c-to-p-k--pi" id="toc-lambda_c-to-p-k--pi" class="nav-link active" data-scroll-target="#lambda_c-to-p-k--pi"><span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span></a>
+  <ul class="collapse">
+  <li><a href="#import-model" id="toc-import-model" class="nav-link" data-scroll-target="#import-model">Import model</a></li>
+  <li><a href="#dynamics" id="toc-dynamics" class="nav-link" data-scroll-target="#dynamics">Dynamics</a>
+  <ul class="collapse">
+  <li><a href="#vertices" id="toc-vertices" class="nav-link" data-scroll-target="#vertices">Vertices</a></li>
+  <li><a href="#propagators" id="toc-propagators" class="nav-link" data-scroll-target="#propagators">Propagators</a></li>
+  </ul></li>
+  <li><a href="#construct-amplitude-model" id="toc-construct-amplitude-model" class="nav-link" data-scroll-target="#construct-amplitude-model">Construct amplitude model</a>
+  <ul class="collapse">
+  <li><a href="#unpolarized-intensity" id="toc-unpolarized-intensity" class="nav-link" data-scroll-target="#unpolarized-intensity">Unpolarized intensity</a></li>
+  <li><a href="#amplitude-for-the-decay-chain" id="toc-amplitude-for-the-decay-chain" class="nav-link" data-scroll-target="#amplitude-for-the-decay-chain">Amplitude for the decay chain</a></li>
+  <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation">Validation</a></li>
+  </ul></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/RUB-EP1/amplitude-serialization/edit/main/docs/python/lc2ppik-lhcb-2683025.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/RUB-EP1/amplitude-serialization/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/RUB-EP1/amplitude-serialization/blob/main/docs/python/lc2ppik-lhcb-2683025.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../python/lc2ppik-lhcb-2683025.html">Python</a></li><li class="breadcrumb-item"><a href="../python/lc2ppik-lhcb-2683025.html"><span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Construct three-body decay</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="lambda_c-to-p-k--pi" class="level1 page-columns page-full">
+<h1><span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span></h1>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Model definition: <a href="https://github.com/RUB-EP1/amplitude-serialization/blob/main/models/lc2ppik-lhcb-2683025.json"><code>lc2ppik-lhcb-2683025.json</code></a>.</p>
+</div>
+</div>
+</div>
+<p>This notebook illustrates the use of the <a href="https://ampform-dpd.readthedocs.io/latest/api/ampform_dpd.io.serialization.html"><code>ampform_dpd.io.serialization</code></a> module for the decay <span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span>. The corresponding model was optimized to a data sample of roughly half a million <span class="math inline">\(\Lambda_c^{\pm}\)</span> decay candidates by the LHCb collaboration, <a href="https://inspirehep.net/literature/2683025">INSPIRE-HEP 2683025</a>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>ampform_dpd.io.serialization</code> module is a preview feature. This notebook illustrates the complete workflow for loading the amplitude model JSON file into a symbolic workspace, compiling it, and validating its serialized checksums.</p>
+</div>
+</div>
+<section id="import-model" class="level2">
+<h2 class="anchored" data-anchor-id="import-model">Import model</h2>
+<div id="4937bf84" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Import Python libraries</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> jax.numpy <span class="im">as</span> jnp</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ampform.dynamics.form_factor <span class="im">import</span> FormFactor</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ampform_dpd.decay <span class="im">import</span> FinalStateID, State, ThreeBodyDecay</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ampform_dpd.dynamics <span class="im">import</span> (</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    BreitWigner,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    ChannelArguments,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    MultichannelBreitWigner,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ampform_dpd.io <span class="im">import</span> (</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    aslatex,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    simplify_latex_rendering,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    unfold_definitions,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ampform_dpd.io.serialization <span class="im">import</span> (</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    compile_workspace,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    load_workspace,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    validate_checksums,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ampform_dpd.io.serialization.amplitude <span class="im">import</span> (</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    HelicityRecoupling,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    LSRecoupling,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    ParityRecoupling,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    formulate_aligned_amplitude,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    formulate_chain_amplitude,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    formulate_recoupling,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ampform_dpd.io.serialization.dynamics <span class="im">import</span> (</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    DefinedExpression,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    ModelDefinition,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    Propagator,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    formulate_breit_wigner,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    formulate_dynamics,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    formulate_form_factor,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    formulate_multichannel_breit_wigner,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    to_mandelstam_symbol,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ampform_dpd.io.serialization.<span class="bu">format</span> <span class="im">import</span> (</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    get_decay_chains,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    get_function_definition,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> JSON, Math</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib_inline.backend_inline <span class="im">import</span> set_matplotlib_formats</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.parsing.sympy_parser <span class="im">import</span> parse_expr</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axes_grid1 <span class="im">import</span> make_axes_locatable  <span class="co"># cspell:ignore mpl_toolkits</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.auto <span class="im">import</span> tqdm</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>this_dir <span class="op">=</span> Path(<span class="st">"."</span>).absolute()</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>logging.getLogger(<span class="st">"ampform.sympy"</span>).setLevel(logging.ERROR)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>simplify_latex_rendering()</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>set_matplotlib_formats(<span class="st">"svg"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="da8c190f" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model_path <span class="op">=</span> this_dir.parent.parent <span class="op">/</span> <span class="st">"models"</span> <span class="op">/</span> <span class="st">"lc2ppik-lhcb-2683025.json"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="79a54161" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Name-to-LaTeX converter</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_latex(name: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    latex <span class="op">=</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Lc"</span>: <span class="vs">R"\Lambda_c^+"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pi"</span>: <span class="vs">R"\pi^+"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"K"</span>: <span class="st">"K^-"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"p"</span>: <span class="st">"p"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    }.get(name)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> latex <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> latex</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    mass_str <span class="op">=</span> name[<span class="dv">1</span>:].strip(<span class="st">"("</span>).strip(<span class="st">")"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    subsystem_letter <span class="op">=</span> name[<span class="dv">0</span>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    subsystem <span class="op">=</span> {<span class="st">"D"</span>: <span class="st">"D"</span>, <span class="st">"K"</span>: <span class="st">"K"</span>, <span class="st">"L"</span>: <span class="vs">R"\Lambda"</span>}.get(subsystem_letter)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> subsystem <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> name</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>subsystem<span class="sc">}</span><span class="ss">(</span><span class="sc">{</span>mass_str<span class="sc">}</span><span class="ss">)"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The serialized <code>generic_function</code> expressions carry their constants as sibling keys next to the expression itself. The default builder in <code>ampform_dpd</code> only substitutes the imaginary unit and the Mandelstam variable, so the workspace is loaded with a builder that also substitutes those named constants.</p>
+<div id="c5af8f56" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Builder for parametrized generic functions</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mandelstam_aliases <span class="op">=</span> (<span class="st">"sigma"</span>, <span class="st">"σ"</span>, <span class="st">"m_12_sq"</span>, <span class="st">"m_23_sq"</span>, <span class="st">"m_31_sq"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>reserved_generic_function_keys <span class="op">=</span> {<span class="st">"name"</span>, <span class="st">"type"</span>, <span class="st">"expression"</span>}</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> formulate_parametric_generic_function(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    propagator: Propagator, resonance: <span class="bu">str</span>, model: ModelDefinition</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> DefinedExpression:</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    definition <span class="op">=</span> get_function_definition(propagator[<span class="st">"parametrization"</span>], model)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    mandelstam <span class="op">=</span> to_mandelstam_symbol(propagator[<span class="st">"node"</span>])</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    local_dict <span class="op">=</span> {<span class="st">"i"</span>: sp.I, <span class="st">"I"</span>: sp.I}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    local_dict.update(<span class="bu">dict</span>.fromkeys(mandelstam_aliases, mandelstam))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    local_dict.update({</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        key: sp.sympify(value)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> key, value <span class="kw">in</span> definition.items()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> key <span class="kw">not</span> <span class="kw">in</span> reserved_generic_function_keys</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    expression <span class="op">=</span> definition[<span class="st">"expression"</span>].replace(<span class="st">"^"</span>, <span class="st">"**"</span>).replace(<span class="st">"1im"</span>, <span class="st">"I"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> DefinedExpression(expression<span class="op">=</span>parse_expr(expression, local_dict<span class="op">=</span>local_dict))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>generic_function_builders <span class="op">=</span> {<span class="st">"generic_function"</span>: formulate_parametric_generic_function}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="17c4b023" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> load_workspace(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    model_path, builders<span class="op">=</span>generic_function_builders, to_latex<span class="op">=</span>to_latex</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>model_definition <span class="op">=</span> workspace.definition</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>((intensity_name, decay),) <span class="op">=</span> workspace.decays.items()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>Math(aslatex(decay, with_jp<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
+<p><span class="math inline">\(\displaystyle \begin{array}{c}
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(D(1232)\left[J=\frac{3}{2}\right] \to p\left[J=\frac{1}{2}\right] \pi^+\left[J=0\right]\right) K^-\left[J=0\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(D(1600)\left[J=\frac{3}{2}\right] \to p\left[J=\frac{1}{2}\right] \pi^+\left[J=0\right]\right) K^-\left[J=0\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(D(1700)\left[J=\frac{3}{2}\right] \to p\left[J=\frac{1}{2}\right] \pi^+\left[J=0\right]\right) K^-\left[J=0\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(K(1430)\left[J=0\right] \to \pi^+\left[J=0\right] K^-\left[J=0\right]\right) p\left[J=\frac{1}{2}\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(K(700)\left[J=0\right] \to \pi^+\left[J=0\right] K^-\left[J=0\right]\right) p\left[J=\frac{1}{2}\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(K(892)\left[J=1\right] \to \pi^+\left[J=0\right] K^-\left[J=0\right]\right) p\left[J=\frac{1}{2}\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(\Lambda(1405)\left[J=\frac{1}{2}\right] \to K^-\left[J=0\right] p\left[J=\frac{1}{2}\right]\right) \pi^+\left[J=0\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(\Lambda(1520)\left[J=\frac{3}{2}\right] \to K^-\left[J=0\right] p\left[J=\frac{1}{2}\right]\right) \pi^+\left[J=0\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(\Lambda(1600)\left[J=\frac{1}{2}\right] \to K^-\left[J=0\right] p\left[J=\frac{1}{2}\right]\right) \pi^+\left[J=0\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(\Lambda(1670)\left[J=\frac{1}{2}\right] \to K^-\left[J=0\right] p\left[J=\frac{1}{2}\right]\right) \pi^+\left[J=0\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(\Lambda(1690)\left[J=\frac{3}{2}\right] \to K^-\left[J=0\right] p\left[J=\frac{1}{2}\right]\right) \pi^+\left[J=0\right] \\
+  \Lambda_c^+\left[J=\frac{1}{2}\right] \to \left(\Lambda(2000)\left[J=\frac{1}{2}\right] \to K^-\left[J=0\right] p\left[J=\frac{1}{2}\right]\right) \pi^+\left[J=0\right] \\
+\end{array}\)</span></p>
+</div>
+</div>
+</section>
+<section id="dynamics" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="dynamics">Dynamics</h2>
+<div class="callout.tip">
+<p>See also <a href="https://github.com/RUB-EP1/amplitude-serialization/issues/22">RUB-EP1/amplitude-serialization#22</a> about serialization of custom lineshapes.</p>
+</div>
+<div id="363471ee" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>chain_defs <span class="op">=</span> get_decay_chains(model_definition)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="vertices" class="level3">
+<h3 class="anchored" data-anchor-id="vertices">Vertices</h3>
+<section id="blatt-weisskopf-form-factor" class="level4">
+<h4 class="anchored" data-anchor-id="blatt-weisskopf-form-factor">Blatt-Weisskopf form factor</h4>
+<div id="613d222e" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>s, m1, m2, angular_momentum, d <span class="op">=</span> sp.symbols(<span class="st">"s m1 m2 L R"</span>, nonnegative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>expr <span class="op">=</span> FormFactor(s, m1, m2, angular_momentum, d)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Math(aslatex(unfold_definitions(expr)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
+<p><span class="math inline">\(\displaystyle \begin{aligned}
+  \mathcal{F}_{L}\left(s, m_{1}, m_{2}\right) \;&amp;=\; \sqrt{B_{L}^2\left(R^{2} q^2\left(s\right)\right)} \\
+  B_{L}^2\left(R^{2} q^2\left(s\right)\right) \;&amp;=\; \frac{\left|{h_{L}^{(1)}\left(1\right)}\right|^{2}}{R^{2} \left|{h_{L}^{(1)}\left(R \sqrt{q^2\left(s\right)}\right)}\right|^{2} q^2\left(s\right)} \\
+  q^2\left(s\right) \;&amp;=\; \frac{\left(s - \left(m_{1} - m_{2}\right)^{2}\right) \left(s - \left(m_{1} + m_{2}\right)^{2}\right)}{4 s} \\
+  h_{L}^{(1)}\left(z\right) \;&amp;=\; \frac{\left(- i\right)^{L + 1} e^{i z} \sum_{k=0}^{L} \frac{\left(\frac{i}{2 z}\right)^{k} \left(k + L\right)!}{k! \left(- k + L\right)!}}{z} \\
+\end{aligned}\)</span></p>
+</div>
+</div>
+<div id="83f2fbde" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ff_l1520 <span class="op">=</span> formulate_form_factor(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    vertex<span class="op">=</span>chain_defs[<span class="dv">2</span>][<span class="st">"vertices"</span>][<span class="dv">0</span>],</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model_definition,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Math(aslatex(ff_l1520))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="8">
+<p><span class="math inline">\(\displaystyle \begin{array}{rcl}
+  \frac{\sqrt{2} \mathcal{F}_{1}\left(m_{0}^{2}, \sqrt{\sigma_{2}}, m_{2}\right)}{2} \\
+  R_{Lc} &amp;=&amp; 5.0 \\
+\end{array}\)</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="propagators" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="propagators">Propagators</h3>
+<section id="breit-wigner" class="level4">
+<h4 class="anchored" data-anchor-id="breit-wigner">Breit-Wigner</h4>
+<div id="60e897ed" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>s, m0, gamma0, m1, m2, angular_momentum, d <span class="op">=</span> sp.symbols(<span class="st">"s m0 Gamma0 m1 m2 L R"</span>, nonnegative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>expr <span class="op">=</span> BreitWigner(s, m0, gamma0, m1, m2, angular_momentum, d)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Math(aslatex(unfold_definitions(expr)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
+<p><span class="math inline">\(\displaystyle \begin{aligned}
+  \mathcal{R}^\mathrm{BW}_{L}\left(s; m_{0}, \Gamma_{0}\right) \;&amp;=\; \mathcal{R}^\mathrm{BW}\left(s; m_{0}, \Gamma_{0}\left(s\right)\right) \\
+  \mathcal{R}^\mathrm{BW}\left(s; m_{0}, \Gamma_{0}\left(s\right)\right) \;&amp;=\; \frac{1}{m_{0}^{2} - i m_{0} \Gamma_{0}\left(s\right) - s} \\
+  \Gamma_{0}\left(s\right) \;&amp;=\; \frac{\Gamma_{0} \mathcal{F}_{L}\left(s, m_{1}, m_{2}\right)^{2} \rho\left(s\right)}{\mathcal{F}_{L}\left(m_{0}^{2}, m_{1}, m_{2}\right)^{2} \rho_{0}\left(m_{0}^{2}\right)} \\
+  \mathcal{F}_{L}\left(s, m_{1}, m_{2}\right) \;&amp;=\; \sqrt{B_{L}^2\left(R^{2} q^2\left(s\right)\right)} \\
+  \rho\left(s\right) \;&amp;=\; \frac{\sqrt{\left(s - \left(m_{1} - m_{2}\right)^{2}\right) \left(s - \left(m_{1} + m_{2}\right)^{2}\right)}}{s} \\
+  B_{L}^2\left(R^{2} q^2\left(s\right)\right) \;&amp;=\; \frac{\left|{h_{L}^{(1)}\left(1\right)}\right|^{2}}{R^{2} \left|{h_{L}^{(1)}\left(R \sqrt{q^2\left(s\right)}\right)}\right|^{2} q^2\left(s\right)} \\
+  q^2\left(s\right) \;&amp;=\; \frac{\left(s - \left(m_{1} - m_{2}\right)^{2}\right) \left(s - \left(m_{1} + m_{2}\right)^{2}\right)}{4 s} \\
+  h_{L}^{(1)}\left(z\right) \;&amp;=\; \frac{\left(- i\right)^{L + 1} e^{i z} \sum_{k=0}^{L} \frac{\left(\frac{i}{2 z}\right)^{k} \left(k + L\right)!}{k! \left(- k + L\right)!}}{z} \\
+\end{aligned}\)</span></p>
+</div>
+</div>
+<div id="242734a8" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>k892_bw <span class="op">=</span> formulate_breit_wigner(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    propagator<span class="op">=</span>chain_defs[<span class="dv">20</span>][<span class="st">"propagators"</span>][<span class="dv">0</span>],</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    resonance<span class="op">=</span>to_latex(chain_defs[<span class="dv">20</span>][<span class="st">"name"</span>]),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model_definition,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>Math(aslatex(k892_bw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="10">
+<p><span class="math inline">\(\displaystyle \begin{array}{rcl}
+  \mathcal{R}^\mathrm{BW}_{L=1}\left(\sigma_{1}; m_{K(892)}, \Gamma_{K(892)}\right) &amp;=&amp; \mathcal{R}^\mathrm{BW}\left(\sigma_{1}; m_{K(892)}, \Gamma_{892}\left(\sigma_{1}\right)\right) \\
+  m_{K(892)} &amp;=&amp; 0.8955 \\
+  \Gamma_{K(892)} &amp;=&amp; 0.047299999999999995 \\
+  m_{2} &amp;=&amp; 0.13957018 \\
+  m_{3} &amp;=&amp; 0.493677 \\
+  R_\mathrm{res} &amp;=&amp; 1.5 \\
+\end{array}\)</span></p>
+</div>
+</div>
+</section>
+<section id="multi-channel-breit-wigner" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="multi-channel-breit-wigner">Multi-channel Breit-Wigner</h4>
+<p>The <code>gsq</code> value that is serialized for each channel is the <strong>coupling squared</strong>, not an energy width. The channel term <span class="math inline">\(\Gamma^\text{ch}\)</span> below follows the same convention as <a href="https://mmikhasenko.github.io/HadronicLineshapes.jl/dev/10-breitwigner/#Multichannel-Breit-Wigner-Function"><code>HadronicLineshapes.jl</code></a>. See <a href="https://github.com/ComPWA/ampform-dpd/pull/199">ComPWA/ampform-dpd#199</a>.</p>
+<div id="203e63cc" class="cell page-columns page-full" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>s, m0, m1, m2, angular_momentum, d <span class="op">=</span> sp.symbols(<span class="st">"s m0 m1 m2 L R"</span>, nonnegative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>channels <span class="op">=</span> <span class="bu">tuple</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    ChannelArguments(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        s,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        m0,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        coupling_squared<span class="op">=</span>sp.Symbol(<span class="ss">f"g_</span><span class="ch">{{</span><span class="sc">{</span>i<span class="sc">}</span><span class="ch">}}</span><span class="ss">^2"</span>, nonnegative<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        m1<span class="op">=</span>sp.Symbol(<span class="ss">f"m_</span><span class="ch">{{</span><span class="ss">a,</span><span class="sc">{</span>i<span class="sc">}</span><span class="ch">}}</span><span class="ss">"</span>, nonnegative<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        m2<span class="op">=</span>sp.Symbol(<span class="ss">f"m_</span><span class="ch">{{</span><span class="ss">b,</span><span class="sc">{</span>i<span class="sc">}</span><span class="ch">}}</span><span class="ss">"</span>, nonnegative<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        angular_momentum<span class="op">=</span>sp.Symbol(<span class="ss">f"L</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>, integer<span class="op">=</span><span class="va">True</span>, nonnegative<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        meson_radius<span class="op">=</span>d,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>expr <span class="op">=</span> MultichannelBreitWigner(s, m0, channels)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>Math(aslatex(unfold_definitions(expr)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown column-page-inset-right" data-execution_count="11">
+<p><span class="math inline">\(\displaystyle \begin{aligned}
+  \mathcal{R}^\mathrm{BW}_\mathrm{multi}\left(s; g_{1}^2, g_{2}^2\right) \;&amp;=\; \mathcal{R}^\mathrm{BW}_{L=0}\left(s; m_{0}, \Gamma^\text{ch}\left(s; m_{0}, g_{1}^2\right) + \Gamma^\text{ch}\left(s; m_{0}, g_{2}^2\right)\right) \\
+  \mathcal{R}^\mathrm{BW}_{L=0}\left(s; m_{0}, \Gamma^\text{ch}\left(s; m_{0}, g_{1}^2\right) + \Gamma^\text{ch}\left(s; m_{0}, g_{2}^2\right)\right) \;&amp;=\; \frac{1}{m_{0}^{2} - i m_{0} \left(\Gamma^\text{ch}\left(s; m_{0}, g_{1}^2\right) + \Gamma^\text{ch}\left(s; m_{0}, g_{2}^2\right)\right) - s} \\
+  \Gamma^\text{ch}\left(s; m_{0}, g_{1}^2\right) \;&amp;=\; \frac{g_{1}^2 \mathcal{F}_{L_{1}}\left(s, m_{a,1}, m_{b,1}\right)^{2} \rho\left(s\right)}{m_{0}} \\
+  \mathcal{F}_{L_{1}}\left(s, m_{a,1}, m_{b,1}\right) \;&amp;=\; \sqrt{B_{L_{1}}^2\left(R^{2} q^2\left(s\right)\right)} \\
+  \rho\left(s\right) \;&amp;=\; \frac{\sqrt{\left(s - \left(m_{a,1} - m_{b,1}\right)^{2}\right) \left(s - \left(m_{a,1} + m_{b,1}\right)^{2}\right)}}{s} \\
+  B_{L_{1}}^2\left(R^{2} q^2\left(s\right)\right) \;&amp;=\; \frac{\left|{h_{L_{1}}^{(1)}\left(1\right)}\right|^{2}}{R^{2} \left|{h_{L_{1}}^{(1)}\left(R \sqrt{q^2\left(s\right)}\right)}\right|^{2} q^2\left(s\right)} \\
+  q^2\left(s\right) \;&amp;=\; \frac{\left(s - \left(m_{a,1} - m_{b,1}\right)^{2}\right) \left(s - \left(m_{a,1} + m_{b,1}\right)^{2}\right)}{4 s} \\
+  h_{L_{1}}^{(1)}\left(z\right) \;&amp;=\; \frac{\left(- i\right)^{L_{1} + 1} e^{i z} \sum_{k=0}^{L_{1}} \frac{\left(\frac{i}{2 z}\right)^{k} \left(k + L_{1}\right)!}{k! \left(- k + L_{1}\right)!}}{z} \\
+\end{aligned}\)</span></p>
+</div>
+</div>
+<div id="fcdefca5" class="cell page-columns page-full" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>l1405_flatte <span class="op">=</span> formulate_multichannel_breit_wigner(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    propagator<span class="op">=</span>chain_defs[<span class="dv">0</span>][<span class="st">"propagators"</span>][<span class="dv">0</span>],</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    resonance<span class="op">=</span>to_latex(chain_defs[<span class="dv">0</span>][<span class="st">"name"</span>]),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model_definition,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>Math(aslatex(l1405_flatte))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown column-page-inset-right" data-execution_count="12">
+<p><span class="math inline">\(\displaystyle \begin{array}{rcl}
+  \frac{1}{m_{\Lambda(1405)}^{2} - \sigma_{2} - i \left(\Gamma_{\Lambda(1405)} \mathcal{F}_{0}\left(\sigma_{2}, m_{3}, m_{1}\right)^{2} \rho^\mathrm{c}_{2}\left(\sigma_{2}\right) + \Gamma_{\Lambda(1405)}^\text{ch. 2} \mathcal{F}_{0}\left(\sigma_{2}, m_{a,2}, m_{b,2}\right)^{2} \rho^\mathrm{c}_{2}\left(\sigma_{2}\right)\right)} \\
+  m_{\Lambda(1405)} &amp;=&amp; 1.4051 \\
+  \Gamma_{\Lambda(1405)} &amp;=&amp; 0.328725260215546 \\
+  m_{3} &amp;=&amp; 0.938272046 \\
+  m_{1} &amp;=&amp; 0.493677 \\
+  R_{\Lambda(1405)} &amp;=&amp; 0 \\
+  m_{a,2} &amp;=&amp; 1.18937 \\
+  m_{b,2} &amp;=&amp; 0.13957018 \\
+  \Gamma_{\Lambda(1405)}^\text{ch. 2} &amp;=&amp; 0.328725260215546 \\
+\end{array}\)</span></p>
+</div>
+</div>
+</section>
+<section id="breit-wigner-with-exponential" class="level4">
+<h4 class="anchored" data-anchor-id="breit-wigner-with-exponential">Breit-Wigner with exponential</h4>
+<p>The Bugg lineshapes are serialized as <code>generic_function</code> expression strings with their masses, widths and slopes as named constants. The dynamics builder parses these expressions, substitutes <span class="math inline">\(i\)</span> with the imaginary unit, <code>m_23_sq</code> with the Mandelstam variable of the propagator node, and each named constant with its serialized value.</p>
+<div id="51d15661" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>get_function_definition(<span class="st">"K700_BuggBW"</span>, model_definition)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>mappingproxy({'name': 'K700_BuggBW',
+              'type': 'generic_function',
+              'expression': '1/(m_K700^2 - m_23_sq - i * m_K700 * (m_23_sq - m_th_sq) / (m_K700^2 - m_th_sq) * Gamma_K700 * exp(-slope_K700 * m_23_sq))',
+              'm_K700': 0.824,
+              'Gamma_K700': 0.478,
+              'slope_K700': 0.94106,
+              'm_th_sq': 0.23397706275638377})</code></pre>
+</div>
+</div>
+<div id="31e48b08" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>k700_bugg_bw <span class="op">=</span> formulate_dynamics(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    chain_defs[<span class="dv">18</span>],</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    model_definition,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    to_latex,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    additional_definitions<span class="op">=</span>generic_function_builders,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>Math(aslatex(k700_bugg_bw))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="14">
+<p><span class="math inline">\(\displaystyle \begin{array}{rcl}
+  \frac{1}{- \sigma_{1} - 0.8851077318065 i \left(\sigma_{1} - 0.233977062756384\right) e^{- 0.94106 \sigma_{1}} + 0.678976} \\
+\end{array}\)</span></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="construct-amplitude-model" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="construct-amplitude-model">Construct amplitude model</h2>
+<section id="unpolarized-intensity" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="unpolarized-intensity">Unpolarized intensity</h3>
+<div id="5a3266b5" class="cell page-columns page-full" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>λ<span class="dv">0</span>, λ<span class="dv">1</span>, λ<span class="dv">2</span>, λ<span class="dv">3</span> <span class="op">=</span> sp.symbols(<span class="st">"lambda(:4)"</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>amplitude_expr, _ <span class="op">=</span> formulate_aligned_amplitude(model_definition, λ<span class="dv">0</span>, λ<span class="dv">1</span>, λ<span class="dv">2</span>, λ<span class="dv">3</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>amplitude_expr.cleanup()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown column-page-inset-right" data-execution_count="15">
+<p><span class="math inline">\(\displaystyle \sum_{\lambda_0^{\prime}=-1/2}^{1/2} \sum_{\lambda_1^{\prime}=-1/2}^{1/2}{A^{1}_{\lambda_0^{\prime}, \lambda_1^{\prime}, 0, 0} d^{\frac{1}{2}}_{\lambda_1^{\prime},\lambda_{1}}\left(\zeta^1_{1(1)}\right) d^{\frac{1}{2}}_{\lambda_{0},\lambda_0^{\prime}}\left(\zeta^0_{1(1)}\right) + A^{2}_{\lambda_0^{\prime}, \lambda_1^{\prime}, 0, 0} d^{\frac{1}{2}}_{\lambda_1^{\prime},\lambda_{1}}\left(\zeta^1_{2(1)}\right) d^{\frac{1}{2}}_{\lambda_{0},\lambda_0^{\prime}}\left(\zeta^0_{2(1)}\right) + A^{3}_{\lambda_0^{\prime}, \lambda_1^{\prime}, 0, 0} d^{\frac{1}{2}}_{\lambda_1^{\prime},\lambda_{1}}\left(\zeta^1_{3(1)}\right) d^{\frac{1}{2}}_{\lambda_{0},\lambda_0^{\prime}}\left(\zeta^0_{3(1)}\right)}\)</span></p>
+</div>
+</div>
+<p>The workspace formulates every serialized distribution while it is loaded. The full intensity model is therefore available without another formulation step.</p>
+<div id="ff031a51" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> workspace.distributions[intensity_name]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="amplitude-for-the-decay-chain" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="amplitude-for-the-decay-chain">Amplitude for the decay chain</h3>
+<section id="helicity-recouplings" class="level4">
+<h4 class="anchored" data-anchor-id="helicity-recouplings">Helicity recouplings</h4>
+<div id="b934257a" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>λa <span class="op">=</span> sp.Symbol(<span class="vs">R"\lambda_a"</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>λb <span class="op">=</span> sp.Symbol(<span class="vs">R"\lambda_b"</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>λa0 <span class="op">=</span> sp.Symbol(<span class="vs">R"\lambda_a^0"</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>λb0 <span class="op">=</span> sp.Symbol(<span class="vs">R"\lambda_b^0"</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> sp.Symbol(<span class="st">"f"</span>, integer<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> sp.Symbol(<span class="st">"l"</span>, integer<span class="op">=</span><span class="va">True</span>, nonnegative<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> sp.Symbol(<span class="st">"s"</span>, nonnegative<span class="op">=</span><span class="va">True</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>ja <span class="op">=</span> sp.Symbol(<span class="st">"j_a"</span>, nonnegative<span class="op">=</span><span class="va">True</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>jb <span class="op">=</span> sp.Symbol(<span class="st">"j_b"</span>, nonnegative<span class="op">=</span><span class="va">True</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>j <span class="op">=</span> sp.Symbol(<span class="st">"j"</span>, nonnegative<span class="op">=</span><span class="va">True</span>, rational<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>exprs <span class="op">=</span> [</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    HelicityRecoupling(λa, λb, λa0, λb0),</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    ParityRecoupling(λa, λb, λa0, λb0, f),</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    LSRecoupling(λa, λb, l, s, ja, jb, j),</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>Math(aslatex({e: e.doit(deep<span class="op">=</span><span class="va">False</span>) <span class="cf">for</span> e <span class="kw">in</span> exprs}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="17">
+<p><span class="math inline">\(\displaystyle \begin{aligned}
+  \mathcal{H}^\text{helicity}\left(\lambda_{a},\lambda_{b}\middle|\lambda^{0}_{a},\lambda^{0}_{b}\right) \;&amp;=\; \delta_{\lambda_{a} \lambda^{0}_{a}} \delta_{\lambda_{b} \lambda^{0}_{b}} \\
+  \mathcal{H}^\text{parity}\left(\lambda_{a},\lambda_{b}\middle|\lambda^{0}_{a},\lambda^{0}_{b},f\right) \;&amp;=\; f \delta_{\lambda_{a}, - \lambda^{0}_{a}} \delta_{\lambda_{b}, - \lambda^{0}_{b}} + \delta_{\lambda_{a} \lambda^{0}_{a}} \delta_{\lambda_{b} \lambda^{0}_{b}} \\
+  \mathcal{H}^\text{parity}\left(\lambda_{a},\lambda_{b}\middle|l,s,j_{a},j_{b},j\right) \;&amp;=\; \frac{\sqrt{2 l + 1} C^{s,\lambda_{a} - \lambda_{b}}_{j_{a},\lambda_{a},j_{b},- \lambda_{b}} C^{j,\lambda_{a} - \lambda_{b}}_{l,0,s,\lambda_{a} - \lambda_{b}}}{\sqrt{2 j + 1}} \\
+\end{aligned}\)</span></p>
+</div>
+</div>
+</section>
+<section id="recoupling-deserialization" class="level4">
+<h4 class="anchored" data-anchor-id="recoupling-deserialization">Recoupling deserialization</h4>
+<div id="cb16dfd3" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>recouplings <span class="op">=</span> [</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    formulate_recoupling(model_definition, chain_idx<span class="op">=</span><span class="dv">0</span>, vertex_idx<span class="op">=</span>i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Math(aslatex({e: e.doit(deep<span class="op">=</span><span class="va">False</span>) <span class="cf">for</span> e <span class="kw">in</span> recouplings}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="18">
+<p><span class="math inline">\(\displaystyle \begin{aligned}
+  \mathcal{H}^\text{helicity}\left(\lambda_{R},\lambda_{2}\middle|\frac{1}{2},0\right) \;&amp;=\; \delta_{0 \lambda_{2}} \delta_{\frac{1}{2} \lambda_{R}} \\
+  \mathcal{H}^\text{parity}\left(\lambda_{3},\lambda_{1}\middle|0,\frac{1}{2},1\right) \;&amp;=\; \delta_{- \frac{1}{2} \lambda_{1}} \delta_{0 \lambda_{3}} + \delta_{0 \lambda_{3}} \delta_{\frac{1}{2} \lambda_{1}} \\
+\end{aligned}\)</span></p>
+</div>
+</div>
+</section>
+<section id="chain-amplitudes" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="chain-amplitudes">Chain amplitudes</h4>
+<div id="b2e4f403" class="cell page-columns page-full" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>definitions <span class="op">=</span> formulate_chain_amplitude(λ<span class="dv">0</span>, λ<span class="dv">1</span>, λ<span class="dv">2</span>, λ<span class="dv">3</span>, model_definition, chain_idx<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Math(aslatex(definitions))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown column-page-inset-right" data-execution_count="19">
+<p><span class="math inline">\(\displaystyle \begin{aligned}
+  A^{2}_{\lambda_{0}, \lambda_{1}, \lambda_{2}, \lambda_{3}} \;&amp;=\; \sum_{\lambda_{R}=-1/2}^{1/2}{\frac{\left(-1\right)^{- \lambda_{2}} \left(-1\right)^{\frac{1}{2} - \lambda_{1}} \sqrt{2} c^{L1405[1/2]}_{\frac{1}{2}, 0, 0} \delta_{\lambda_{0}, \lambda_{R} - \lambda_{2}} \mathcal{H}^\text{helicity}\left(\lambda_{R},\lambda_{2}\middle|\frac{1}{2},0\right) \mathcal{H}^\text{parity}\left(\lambda_{3},\lambda_{1}\middle|0,\frac{1}{2},1\right) d^{\frac{1}{2}}_{\lambda_{R},- \lambda_{1} + \lambda_{3}}\left(\theta_{31}\right)}{m_{L1405}^{2} - \sigma_{2} - i \left(\Gamma_{L1405} \mathcal{F}_{0}\left(\sigma_{2}, m_{3}, m_{1}\right)^{2} \rho^\mathrm{c}_{2}\left(\sigma_{2}\right) + \Gamma_{L1405}^\text{ch. 2} \mathcal{F}_{0}\left(\sigma_{2}, m_{a,2}, m_{b,2}\right)^{2} \rho^\mathrm{c}_{2}\left(\sigma_{2}\right)\right)}} \\
+  c^{L1405[1/2]}_{\frac{1}{2}, 0, 0} \;&amp;=\; 7.38649400481717+1.971018433257411i \\
+  m_{L1405} \;&amp;=\; 1.4051 \\
+  \Gamma_{L1405} \;&amp;=\; 0.328725260215546 \\
+  m_{3} \;&amp;=\; 0.938272046 \\
+  m_{1} \;&amp;=\; 0.493677 \\
+  R_{L1405} \;&amp;=\; 0 \\
+  m_{a,2} \;&amp;=\; 1.18937 \\
+  m_{b,2} \;&amp;=\; 0.13957018 \\
+  \Gamma_{L1405}^\text{ch. 2} \;&amp;=\; 0.328725260215546 \\
+  \theta_{31} \;&amp;=\; \operatorname{acos}{\left(\frac{2 \sigma_{2} \left(- m_{2}^{2} - m_{3}^{2} + \sigma_{1}\right) - \left(m_{0}^{2} - m_{2}^{2} - \sigma_{2}\right) \left(- m_{1}^{2} + m_{3}^{2} + \sigma_{2}\right)}{\sqrt{\lambda\left(m_{0}^{2}, m_{2}^{2}, \sigma_{2}\right)} \sqrt{\lambda\left(\sigma_{2}, m_{3}^{2}, m_{1}^{2}\right)}} \right)} \\
+\end{aligned}\)</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="validation" class="level3">
+<h3 class="anchored" data-anchor-id="validation">Validation</h3>
+<p><code>compile_workspace</code> turns the symbolic workspace into numerical TensorWaves functions. Its default targets are the distributions and named functions referenced by the serialized checksums. <code>validate_checksums</code> transforms each reference point to the required coordinates and returns a structured result without aborting the other checks when an individual evaluation fails.</p>
+<p>The status marks 🟢, 🟡, and 🔴 indicate absolute differences of <span class="math inline">\(&lt;10^{-10}\)</span>, <span class="math inline">\(&lt;10^{-2}\)</span>, and <span class="math inline">\(\ge10^{-2}\)</span>, respectively. Failed evaluations are marked 🔴; the diagnostic column provides details. The diagnostic column is hidden when all statuses are 🟢.</p>
+<div id="f7aab793" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Compile and validate all checksum targets</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>compiled_workspace <span class="op">=</span> compile_workspace(workspace, backend<span class="op">=</span><span class="st">"jax"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>checksum_results <span class="op">=</span> validate_checksums(compiled_workspace)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>validation_table <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Distribution"</span>: [result.target <span class="cf">for</span> result <span class="kw">in</span> checksum_results],</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Point"</span>: [result.point_name <span class="cf">for</span> result <span class="kw">in</span> checksum_results],</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Computed"</span>: [result.value <span class="cf">for</span> result <span class="kw">in</span> checksum_results],</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Expected"</span>: [result.reference <span class="cf">for</span> result <span class="kw">in</span> checksum_results],</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Difference"</span>: [result.difference <span class="cf">for</span> result <span class="kw">in</span> checksum_results],</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Status"</span>: [</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"🟢"</span> <span class="cf">if</span> result.difference <span class="op">&lt;</span> <span class="fl">1e-10</span> <span class="cf">else</span> <span class="st">"🟡"</span> <span class="cf">if</span> result.difference <span class="op">&lt;</span> <span class="fl">1e-2</span> <span class="cf">else</span> <span class="st">"🔴"</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> result <span class="kw">in</span> checksum_results</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Diagnostic"</span>: [result.diagnostic <span class="cf">for</span> result <span class="kw">in</span> checksum_results],</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> validation_table[<span class="st">"Status"</span>].eq(<span class="st">"🟢"</span>).<span class="bu">all</span>():</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    validation_table <span class="op">=</span> validation_table.drop(columns<span class="op">=</span><span class="st">"Diagnostic"</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">all</span>(result.passed <span class="cf">for</span> result <span class="kw">in</span> checksum_results)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>validation_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Distribution</th>
+<th data-quarto-table-cell-role="th">Point</th>
+<th data-quarto-table-cell-role="th">Computed</th>
+<th data-quarto-table-cell-role="th">Expected</th>
+<th data-quarto-table-cell-role="th">Difference</th>
+<th data-quarto-table-cell-role="th">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>default_model</td>
+<td>validation_point</td>
+<td>9345.853381+&nbsp;&nbsp; 0.000000j</td>
+<td>9345.853381+&nbsp;&nbsp; 0.000000j</td>
+<td>1.091394e-11</td>
+<td>🟢</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>L1405_Flatte</td>
+<td>validation_point_m31sq</td>
+<td>-0.748060+&nbsp;&nbsp; 0.225214j</td>
+<td>-0.748060+&nbsp;&nbsp; 0.225214j</td>
+<td>1.665335e-16</td>
+<td>🟢</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>L1690_BW</td>
+<td>validation_point_m31sq</td>
+<td>-1.856393+&nbsp;&nbsp; 1.397092j</td>
+<td>-1.856393+&nbsp;&nbsp; 1.397092j</td>
+<td>2.452563e-15</td>
+<td>🟢</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>D1232_BW</td>
+<td>validation_point_m12sq</td>
+<td>-0.375591+&nbsp;&nbsp; 0.286720j</td>
+<td>-0.375591+&nbsp;&nbsp; 0.286720j</td>
+<td>8.617648e-16</td>
+<td>🟢</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>L1520_BW</td>
+<td>validation_point_m31sq</td>
+<td>-0.651903+&nbsp;&nbsp; 0.551371j</td>
+<td>-0.651903+&nbsp;&nbsp; 0.551371j</td>
+<td>1.350645e-15</td>
+<td>🟢</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>L1600_BW</td>
+<td>validation_point_m31sq</td>
+<td>-0.571161+&nbsp;&nbsp; 0.851729j</td>
+<td>-0.571161+&nbsp;&nbsp; 0.851729j</td>
+<td>4.965068e-16</td>
+<td>🟢</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>L2000_BW</td>
+<td>validation_point_m31sq</td>
+<td>1.139903+&nbsp;&nbsp; 0.463291j</td>
+<td>1.139903+&nbsp;&nbsp; 0.463291j</td>
+<td>5.236912e-16</td>
+<td>🟢</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>D1600_BW</td>
+<td>validation_point_m12sq</td>
+<td>-0.754261+&nbsp;&nbsp; 0.953349j</td>
+<td>-0.754261+&nbsp;&nbsp; 0.953349j</td>
+<td>1.790181e-15</td>
+<td>🟢</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>D1700_BW</td>
+<td>validation_point_m12sq</td>
+<td>-0.324205+&nbsp;&nbsp; 0.915217j</td>
+<td>-0.324205+&nbsp;&nbsp; 0.915217j</td>
+<td>5.357905e-15</td>
+<td>🟢</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>K892_BW</td>
+<td>validation_point_m23sq</td>
+<td>-1.616042+&nbsp;&nbsp; 0.300764j</td>
+<td>-1.616042+&nbsp;&nbsp; 0.300764j</td>
+<td>7.021667e-16</td>
+<td>🟢</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>L1670_BW</td>
+<td>validation_point_m31sq</td>
+<td>-2.383990+&nbsp;&nbsp; 0.340064j</td>
+<td>-2.383990+&nbsp;&nbsp; 0.340064j</td>
+<td>4.440892e-16</td>
+<td>🟢</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="visualization" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="visualization">Visualization</h2>
+<div id="30fba0b7" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Configure the visualizations</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>i, j <span class="op">=</span> <span class="dv">2</span>, <span class="dv">1</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>k, <span class="op">*</span>_ <span class="op">=</span> {<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>} <span class="op">-</span> {i, j}</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>resolution <span class="op">=</span> <span class="dv">1_000</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>masses <span class="op">=</span> <span class="bu">sorted</span>(model.masses, key<span class="op">=</span><span class="bu">str</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>x_min <span class="op">=</span> <span class="bu">float</span>(((masses[j] <span class="op">+</span> masses[k]) <span class="op">**</span> <span class="dv">2</span>).xreplace(model.masses))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>x_max <span class="op">=</span> <span class="bu">float</span>(((masses[<span class="dv">0</span>] <span class="op">-</span> masses[i]) <span class="op">**</span> <span class="dv">2</span>).xreplace(model.masses))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>y_min <span class="op">=</span> <span class="bu">float</span>(((masses[i] <span class="op">+</span> masses[k]) <span class="op">**</span> <span class="dv">2</span>).xreplace(model.masses))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>y_max <span class="op">=</span> <span class="bu">float</span>(((masses[<span class="dv">0</span>] <span class="op">-</span> masses[j]) <span class="op">**</span> <span class="dv">2</span>).xreplace(model.masses))</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>x_margin <span class="op">=</span> <span class="fl">0.05</span> <span class="op">*</span> (x_max <span class="op">-</span> x_min)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>y_margin <span class="op">=</span> <span class="fl">0.05</span> <span class="op">*</span> (y_max <span class="op">-</span> y_min)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> jnp.meshgrid(</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    jnp.linspace(x_min <span class="op">-</span> x_margin, x_max <span class="op">+</span> x_margin, num<span class="op">=</span>resolution),</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    jnp.linspace(y_min <span class="op">-</span> y_margin, y_max <span class="op">+</span> y_margin, num<span class="op">=</span>resolution),</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>dalitz_data <span class="op">=</span> {<span class="ss">f"sigma</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>: x, <span class="ss">f"sigma</span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">"</span>: y}</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>intensity_function <span class="op">=</span> compiled_workspace.functions[intensity_name]</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>intensities <span class="op">=</span> intensity_function(dalitz_data)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>normalized_intensities <span class="op">=</span> intensities <span class="op">/</span> jnp.nansum(intensities)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_decay_products(</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    decay: ThreeBodyDecay,</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    subsystem: FinalStateID,</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[State, State]:</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">tuple</span>(s <span class="cf">for</span> s <span class="kw">in</span> decay.final_state.values() <span class="cf">if</span> s.index <span class="op">!=</span> subsystem)</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>sigma_labels <span class="op">=</span> {</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    subsystem: <span class="vs">Rf"$\sigma_</span><span class="sc">{</span>subsystem<span class="sc">}</span><span class="vs"> = M^2\left(</span><span class="sc">{</span><span class="st">' '</span><span class="sc">.</span>join(p.latex <span class="cf">for</span> p <span class="kw">in</span> get_decay_products(decay, subsystem))<span class="sc">}</span><span class="vs">\right)$"</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subsystem <span class="kw">in</span> (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="co"># cspell:ignore bbox edgecolor facecolor fontset fontsize labelcolor mathtext ncol savefig</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="co"># cspell:ignore sharey startswith STIX wspace xtick ytick</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"axes.edgecolor"</span>: <span class="st">"#808080"</span>,</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"axes.facecolor"</span>: <span class="st">"none"</span>,</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"axes.labelcolor"</span>: <span class="st">"#808080"</span>,</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"figure.facecolor"</span>: <span class="st">"none"</span>,</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"font.family"</span>: <span class="st">"serif"</span>,</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"font.serif"</span>: [<span class="st">"STIXGeneral"</span>, <span class="st">"DejaVu Serif"</span>],</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"font.size"</span>: <span class="dv">18</span>,</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mathtext.fontset"</span>: <span class="st">"stix"</span>,</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"savefig.transparent"</span>: <span class="va">True</span>,</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text.color"</span>: <span class="st">"#808080"</span>,</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">"xtick.color"</span>: <span class="st">"#808080"</span>,</span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ytick.color"</span>: <span class="st">"#808080"</span>,</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="6acb070e" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Render the Dalitz plot</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>mesh <span class="op">=</span> ax.pcolormesh(x, y, normalized_intensities, rasterized<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(sigma_labels[i])</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(sigma_labels[j])</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>divider <span class="op">=</span> make_axes_locatable(ax)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>colorbar_axes <span class="op">=</span> divider.append_axes(<span class="st">"right"</span>, size<span class="op">=</span><span class="st">"5%"</span>, pad<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>colorbar <span class="op">=</span> fig.colorbar(mesh, cax<span class="op">=</span>colorbar_axes)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>colorbar.ax.set_ylabel(<span class="st">"Normalized intensity (a.u.)"</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lc2ppik-lhcb-2683025_files/figure-html/cell-23-output-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="8e957eb1" class="cell page-columns page-full" data-execution_count="24">
+<details class="code-fold">
+<summary>Render the mass projection</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>resonance_names <span class="op">=</span> <span class="bu">sorted</span>({chain[<span class="st">"name"</span>].split(<span class="st">"["</span>)[<span class="dv">0</span>] <span class="cf">for</span> chain <span class="kw">in</span> chain_defs})</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> project(intensity_values, subsystem: <span class="bu">int</span>):</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> subsystem <span class="op">==</span> i:</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        mass_values <span class="op">=</span> jnp.sqrt(x[<span class="dv">0</span>])</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        projection <span class="op">=</span> jnp.nansum(intensity_values, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        mass_values <span class="op">=</span> jnp.sqrt(y[:, <span class="dv">0</span>])</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        projection <span class="op">=</span> jnp.nansum(intensity_values, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mass_values, mass_values <span class="op">*</span> projection</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>projections <span class="op">=</span> {}</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>normalizations <span class="op">=</span> {}</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> subsystem <span class="kw">in</span> (i, j):</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    mass_values, total_projection <span class="op">=</span> project(intensities, subsystem)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    projections[subsystem] <span class="op">=</span> (mass_values, total_projection)</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    normalizations[subsystem] <span class="op">=</span> jnp.trapezoid(total_projection, mass_values)</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">6</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> axis, subsystem <span class="kw">in</span> <span class="bu">zip</span>(axes, (i, j), strict<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    mass_values, total_projection <span class="op">=</span> projections[subsystem]</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    axis.plot(</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>        mass_values,</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>        total_projection <span class="op">/</span> normalizations[subsystem],</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"#808080"</span>,</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>        lw<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">"Total"</span>,</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> resonance_name <span class="kw">in</span> resonance_names:</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    resonance_latex <span class="op">=</span> to_latex(resonance_name)</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>    coupling_overrides <span class="op">=</span> {</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>        symbol: value <span class="cf">if</span> resonance_latex <span class="kw">in</span> <span class="bu">str</span>(symbol) <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> symbol, value <span class="kw">in</span> model.parameter_defaults.items()</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">str</span>(symbol).startswith(<span class="st">"c^"</span>)</span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>    component_workspace <span class="op">=</span> compile_workspace(</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>        workspace,</span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>        backend<span class="op">=</span><span class="st">"jax"</span>,</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>        targets<span class="op">=</span>[intensity_name],</span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>        parameter_overrides<span class="op">=</span>coupling_overrides,</span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>    component <span class="op">=</span> component_workspace.functions[intensity_name](dalitz_data)</span>
+<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a>    component <span class="op">=</span> jnp.where(jnp.isnan(intensities), jnp.nan, component)</span>
+<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> axis, subsystem <span class="kw">in</span> <span class="bu">zip</span>(axes, (i, j), strict<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>        mass_values, component_projection <span class="op">=</span> project(component, subsystem)</span>
+<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a>        axis.plot(</span>
+<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a>            mass_values,</span>
+<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a>            component_projection <span class="op">/</span> normalizations[subsystem],</span>
+<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a>            label<span class="op">=</span>resonance_name,</span>
+<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="vs">R"$m_</span><span class="sc">{13}</span><span class="vs">$ [GeV]"</span>)</span>
+<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="vs">R"$m_</span><span class="sc">{23}</span><span class="vs">$ [GeV]"</span>)</span>
+<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">"Normalized intensity (a.u.)"</span>)</span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylim(bottom<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a>handles, labels <span class="op">=</span> axes[<span class="dv">0</span>].get_legend_handles_labels()</span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>fig.legend(</span>
+<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a>    handles,</span>
+<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a>    labels,</span>
+<span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a>    bbox_to_anchor<span class="op">=</span>(<span class="fl">0.5</span>, <span class="fl">0.97</span>),</span>
+<span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="st">"small"</span>,</span>
+<span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a>    loc<span class="op">=</span><span class="st">"upper center"</span>,</span>
+<span id="cb24-64"><a href="#cb24-64" aria-hidden="true" tabindex="-1"></a>    ncol<span class="op">=</span><span class="dv">7</span>,</span>
+<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-66"><a href="#cb24-66" aria-hidden="true" tabindex="-1"></a>fig.subplots_adjust(top<span class="op">=</span><span class="fl">0.8</span>, wspace<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb24-67"><a href="#cb24-67" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display page-columns page-full">
+<div class="page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="lc2ppik-lhcb-2683025_files/figure-html/cell-24-output-1.svg" class="img-fluid figure-img column-page-inset-right"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/RUB-EP1/amplitude-serialization/edit/main/docs/python/lc2ppik-lhcb-2683025.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/RUB-EP1/amplitude-serialization/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/RUB-EP1/amplitude-serialization/blob/main/docs/python/lc2ppik-lhcb-2683025.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
