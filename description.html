@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>description – Amplitude model serialization</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./_images/favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-65ab6f6afcc98c2005f3bec1c5e98b7d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-a515e054079012129989d5397ee3c9c1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-65ab6f6afcc98c2005f3bec1c5e98b7d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./_images/demos-icon.svg" alt="Democratizing Models" class="navbar-logo light-content">
+    <img src="./_images/demos-icon.svg" alt="Democratizing Models" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Amplitude model serialization</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./description.html" aria-current="page"> 
+<span class="menu-text">Format description</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./HS3.html"> 
+<span class="menu-text">Compatibility with HS3</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/RUB-EP1/amplitude-serialization"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Julia</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./julia/lc2ppik-lhcb-2683025.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./julia/lb2pkg-lhcb-2765817.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(\Lambda_b^0 \to p K^- \gamma\)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./julia/x2pipipi-compass-1391643.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(X\to \pi^-\pi^+\pi^-\)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Python</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./python/lc2ppik-lhcb-2683025.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(\Lambda_c^+ \to p K^- \pi^+\)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./python/lb2pkg-lhcb-2765817.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(\Lambda_b^0 \to p K^- \gamma\)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./python/x2pipipi-compass-1391643.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="math inline">\(X\to \pi^-\pi^+\pi^-\)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#format-description" id="toc-format-description" class="nav-link active" data-scroll-target="#format-description">Format description</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
+  </ul></li>
+  <li><a href="#amplitude-model-and-observables" id="toc-amplitude-model-and-observables" class="nav-link" data-scroll-target="#amplitude-model-and-observables">Amplitude model and observables</a>
+  <ul class="collapse">
+  <li><a href="#observables" id="toc-observables" class="nav-link" data-scroll-target="#observables">Observables</a></li>
+  </ul></li>
+  <li><a href="#model-structure-overview" id="toc-model-structure-overview" class="nav-link" data-scroll-target="#model-structure-overview">Model structure overview</a>
+  <ul class="collapse">
+  <li><a href="#mandatory-components-of-a-decay-description" id="toc-mandatory-components-of-a-decay-description" class="nav-link" data-scroll-target="#mandatory-components-of-a-decay-description">Mandatory components of a decay description</a></li>
+  </ul></li>
+  <li><a href="#kinematics-section" id="toc-kinematics-section" class="nav-link" data-scroll-target="#kinematics-section">Kinematics section</a>
+  <ul class="collapse">
+  <li><a href="#purpose-of-the-kinematics-object" id="toc-purpose-of-the-kinematics-object" class="nav-link" data-scroll-target="#purpose-of-the-kinematics-object">Purpose of the <code>kinematics</code> object</a></li>
+  <li><a href="#detailed-field-descriptions" id="toc-detailed-field-descriptions" class="nav-link" data-scroll-target="#detailed-field-descriptions">Detailed field descriptions</a></li>
+  <li><a href="#examples-of-the-kinematics-section" id="toc-examples-of-the-kinematics-section" class="nav-link" data-scroll-target="#examples-of-the-kinematics-section">Examples of the <code>kinematics</code> section</a></li>
+  </ul></li>
+  <li><a href="#topology-and-reference-topology" id="toc-topology-and-reference-topology" class="nav-link" data-scroll-target="#topology-and-reference-topology">Topology and reference topology</a>
+  <ul class="collapse">
+  <li><a href="#amplitude-of-a-cascade-chain" id="toc-amplitude-of-a-cascade-chain" class="nav-link" data-scroll-target="#amplitude-of-a-cascade-chain">Amplitude of a cascade chain</a></li>
+  <li><a href="#an-example-of-a-four-body-decay" id="toc-an-example-of-a-four-body-decay" class="nav-link" data-scroll-target="#an-example-of-a-four-body-decay">An example of a four-body decay</a></li>
+  </ul></li>
+  <li><a href="#chains-section" id="toc-chains-section" class="nav-link" data-scroll-target="#chains-section">Chains section</a>
+  <ul class="collapse">
+  <li><a href="#topology" id="toc-topology" class="nav-link" data-scroll-target="#topology">Topology</a></li>
+  <li><a href="#vertices" id="toc-vertices" class="nav-link" data-scroll-target="#vertices">Vertices</a></li>
+  <li><a href="#propagators" id="toc-propagators" class="nav-link" data-scroll-target="#propagators">Propagators</a></li>
+  <li><a href="#weight" id="toc-weight" class="nav-link" data-scroll-target="#weight">Weight</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/RUB-EP1/amplitude-serialization/edit/main/docs/description.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/RUB-EP1/amplitude-serialization/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/RUB-EP1/amplitude-serialization/blob/main/docs/description.md" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+
+<section id="format-description" class="level1">
+<h1>Format description</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The Amplitude Model Serialization Format is a structured, JSON-based specification for hadronic amplitude models. It is designed to support reproducibility and validation of computational and theoretical frameworks in the hadron-physics community. It provides a standardized, minimal way to describe particle kinematics, lineshapes, and cascade decay chains.</p>
+<p>This document is intended for framework developers and experts in high-energy physics, computational physics, and related fields. The format is extensible, so that new features can be added as the field evolves. Feedback can be provided via <a href="https://github.com/RUB-EP1/amplitude-serialization/issues">our issues page</a> or the <a href="https://github.com/RUB-EP1/amplitude-serialization/discussions">discussions page</a>.</p>
+<section id="objectives" class="level3">
+<h3 class="anchored" data-anchor-id="objectives">Objectives</h3>
+<ul>
+<li><p><strong>Reproducibility and open science</strong><br> By standardizing model descriptions, the format makes computational experiments and theoretical analyses easier to reproduce. It supports open science by making it easier for researchers to share, validate, and build upon each other’s work.</p></li>
+<li><p><strong>Interpretation of amplitude-analysis results</strong><br> The format is designed to help the theory community interpret amplitude-analysis results. A complete model description helps connect experimental measurements to theoretical interpretation.</p></li>
+<li><p><strong>Correctness checks for new frameworks</strong><br> As new computational frameworks and models are developed, this format provides a benchmark for checking their correctness. It encourages new tools to follow a common standard while remaining scientifically rigorous.</p></li>
+<li><p><strong>Integration with Monte Carlo (MC) generators</strong><br> The format is intended to be compatible with MC generators, so that the same model can be used in simulation workflows. This is important for testing theoretical models against experimental data and for producing high-fidelity simulations.</p></li>
+<li><p><strong>Benchmark for new computational hardware</strong><br> A structured model description is a useful benchmark for new processors (GPUs, CPUs, and related accelerators) and for accelerated computation. A shared model makes it easier to compare the performance of new hardware and software.</p></li>
+</ul>
+<p>This document specifies the model description format: its structure, components, and intended applications. It is a reference for developers and theorists working at the intersection of computational and theoretical physics, with the aim that the tools and models they develop are accurate and interoperable.</p>
+</section>
+</section>
+<section id="amplitude-model-and-observables" class="level2">
+<h2 class="anchored" data-anchor-id="amplitude-model-and-observables">Amplitude model and observables</h2>
+<p>An amplitude model predicts a probability density function (PDF) over the kinematic variables of a decay. The PDF is a real-valued, normalizable function of kinematics and model parameters. It is constructed from transition amplitudes and is the quantity compared with experimental distributions.</p>
+<p>The elementary object is the <strong>external-helicity amplitude</strong> <span class="math inline">\(A_{\lambda_{\mathrm{ext}}}(\tau\mid\mathrm{pars})\)</span>: a complex array with one index per external particle (the final-state helicities, and the helicity of the decaying particle). Observables are obtained from this array.</p>
+<section id="observables" class="level3">
+<h3 class="anchored" data-anchor-id="observables">Observables</h3>
+<p>This format defines two primary observables.</p>
+<section id="unpolarized-intensity" class="level4">
+<h4 class="anchored" data-anchor-id="unpolarized-intensity">Unpolarized intensity</h4>
+<p>The unpolarized intensity retains no polarization information. It is the squared modulus of the external-helicity amplitude, summed over all external helicities:</p>
+<p><span class="math display">\[
+I_\text{unpolarized}(\tau | \text{pars}) = \sum_{\lambda_{\mathrm{ext}}} \bigl|A_{\lambda_{\mathrm{ext}}}(\tau | \text{pars})\bigr|^2.
+\]</span></p>
+<p>Here <span class="math inline">\(\tau\)</span> denotes the kinematic variables and <span class="math inline">\(\text{pars}\)</span> the model parameters. This observable is used when particle polarizations are not measured.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"distributions"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"my-amazing-model"</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"HadronicUnpolarizedIntensity"</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"decay_description"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"kinematics"</span><span class="fu">:</span> <span class="fu">{},</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"reference_topology"</span><span class="fu">:</span> <span class="ot">[[</span><span class="dv">1</span><span class="ot">,</span> <span class="dv">2</span><span class="ot">],</span> <span class="dv">3</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"chains"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{}</span><span class="ot">,</span> <span class="fu">{}</span><span class="ot">]</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="polarized-intensity" class="level4">
+<h4 class="anchored" data-anchor-id="polarized-intensity">Polarized intensity</h4>
+<p>The polarized intensity includes the polarization of the initial state. It is obtained by contracting the amplitude and its complex conjugate with the initial-state density matrix <span class="math inline">\(\rho\)</span>, and summing over final-state helicities:</p>
+<p><span class="math display">\[
+I_\text{polarized}(\tau | \text{pars}) = \sum_{\lambda_0,\lambda_0'} \sum_{\lambda_{\mathrm{final}}} A^*_{\lambda_0,\,\lambda_{\mathrm{final}}}(\tau | \text{pars})\, \rho_{\lambda_0\lambda_0'}\, A_{\lambda_0',\,\lambda_{\mathrm{final}}}(\tau | \text{pars})\,.
+\]</span></p>
+<p>Here <span class="math inline">\(A_{\lambda_0,\,\lambda_{\mathrm{final}}}\)</span> is the amplitude for initial helicity <span class="math inline">\(\lambda_0\)</span> and a given set of final helicities, <span class="math inline">\(A^*\)</span> is its complex conjugate, and <span class="math inline">\(\rho_{\lambda_0\lambda_0'}\)</span> is the initial-state polarization density matrix. The corresponding distribution type is <code>HadronicPolarizedIntensity</code>.</p>
+</section>
+</section>
+</section>
+<section id="model-structure-overview" class="level2">
+<h2 class="anchored" data-anchor-id="model-structure-overview">Model structure overview</h2>
+<p>The decay description collects the ingredients of a cascade amplitude: the external particles, a reference topology, and a list of decay chains. Each chain is an ordered binary cascade: nested two-body decays, with a recoupling at every vertex and a lineshape on every internal line. Chains are summed coherently.</p>
+<section id="mandatory-components-of-a-decay-description" class="level3">
+<h3 class="anchored" data-anchor-id="mandatory-components-of-a-decay-description">Mandatory components of a decay description</h3>
+<p>A <code>decay_description</code> is organized around several mandatory components:</p>
+<ul>
+<li><p><strong><a href="#kinematics-section"><code>kinematics</code></a>:</strong> Lists the external particles, including their spins, indices, names, and masses. This section defines the initial and final states.</p></li>
+<li><p><strong><a href="#topology-and-reference-topology"><code>reference_topology</code></a>:</strong> A nested array of particle indices that defines the reference cascade. It parametrizes the kinematics and fixes the quantization axes of the external helicities. A chain written in this topology needs no alignment rotations. Chains with a different topology must be rotated into this reference.</p></li>
+<li><p><strong><a href="#chains-section"><code>chains</code></a>:</strong> Lists the cascade sequences that contribute to the amplitude. Each chain has its own topology, one vertex per two-body decay, and one propagator per internal line. Chains are summed coherently, each multiplied by a complex weight.</p></li>
+</ul>
+</section>
+</section>
+<section id="kinematics-section" class="level2">
+<h2 class="anchored" data-anchor-id="kinematics-section">Kinematics section</h2>
+<section id="purpose-of-the-kinematics-object" class="level3">
+<h3 class="anchored" data-anchor-id="purpose-of-the-kinematics-object">Purpose of the <code>kinematics</code> object</h3>
+<p>The <code>kinematics</code> object lists the external particles of the decay and their properties (spin, mass, name, and index). These are the lines that appear as leaves and as the root of every topology. Event-dependent invariants and helicity angles are not stored here; they are implied by the topology and the four-momenta of an event.</p>
+</section>
+<section id="detailed-field-descriptions" class="level3">
+<h3 class="anchored" data-anchor-id="detailed-field-descriptions">Detailed field descriptions</h3>
+<ul>
+<li><strong><code>initial_state</code> and <code>final_state</code>:</strong> These fields identify the decaying particle and the particles in the final state. Each entry includes:
+<ul>
+<li><strong><code>index</code>:</strong> A unique identifier for the particle. Index <code>0</code> is reserved for the initial-state particle. Final-state indices start at <code>1</code> and are the integers that appear as leaves in topology brackets.</li>
+<li><strong><code>name</code>:</strong> A label for the particle. It is for readability and is not a standardized identifier.</li>
+<li><strong><code>spin</code>:</strong> The spin quantum number of the particle, written as a string (for example <code>"0"</code>, <code>"1/2"</code>, <code>"1"</code>).</li>
+<li><strong><code>mass</code>:</strong> The mass of the particle, in GeV.</li>
+</ul></li>
+</ul>
+</section>
+<section id="examples-of-the-kinematics-section" class="level3">
+<h3 class="anchored" data-anchor-id="examples-of-the-kinematics-section">Examples of the <code>kinematics</code> section</h3>
+<ul>
+<li><p><strong>Three-body decay example (<span class="math inline">\(\Lambda_b \to J/\psi\, K\, \pi\)</span>):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="st">"kinematics"</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"initial_state"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"Lb"</span><span class="fu">,</span>    <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"1/2"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">5.62</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"final_state"</span> <span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"Jpsi"</span><span class="fu">,</span> <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">3.097</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"K"</span><span class="fu">,</span>    <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"0"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">0.493</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"pi"</span><span class="fu">,</span>   <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"0"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">0.140</span><span class="fu">}</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Four-body decay example (<span class="math inline">\(B \to \psi\, K\, \pi\, \pi\)</span>):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="st">"kinematics"</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"initial_state"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"B"</span><span class="fu">,</span>    <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"0"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">5.279</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"final_state"</span> <span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"psi"</span><span class="fu">,</span> <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">3.686</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"K"</span><span class="fu">,</span>   <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"0"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">0.493</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"pi"</span><span class="fu">,</span>  <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"0"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">0.140</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"index"</span> <span class="fu">:</span> <span class="dv">4</span><span class="fu">,</span> <span class="dt">"name"</span> <span class="fu">:</span> <span class="st">"pi"</span><span class="fu">,</span>  <span class="dt">"spin"</span> <span class="fu">:</span> <span class="st">"0"</span><span class="fu">,</span> <span class="dt">"mass"</span> <span class="fu">:</span> <span class="fl">0.140</span><span class="fu">}</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+</section>
+</section>
+<section id="topology-and-reference-topology" class="level2">
+<h2 class="anchored" data-anchor-id="topology-and-reference-topology">Topology and reference topology</h2>
+<p>A topology is a <strong>nested binary tree</strong> of final-state indices, written in JSON as nested two-element arrays. Each pair is an ordered two-body decay <span class="math inline">\(0\to 1+2\)</span>: the left entry is child 1, the right entry is child 2. For <span class="math inline">\(n\)</span> final-state particles there are <span class="math inline">\(n-1\)</span> vertices and <span class="math inline">\(n-2\)</span> internal lines (plus the root line).</p>
+<p>Child order is part of the physics. The arrays <code>[3, 1]</code> and <code>[1, 3]</code> are different topologies: they assign child 1 and child 2 differently, and therefore change the helicity difference <span class="math inline">\(\lambda_1-\lambda_2\)</span>, the Jacob–Wick particle-2 phase, the local angles, and the Wigner-rotation path. Bracket pairs must not be treated as unordered sets.</p>
+<p>The same nested array is used as an <strong>address</strong> in two related ways:</p>
+<ul>
+<li>as a <strong>vertex</strong>: the two-body decay of that subsystem;</li>
+<li>as an <strong>internal line</strong>: the resonance (the parent particle of that decay).</li>
+</ul>
+<p>The <code>reference_topology</code> serves two purposes. First, it defines how the decay kinematics are parametrized: which combination of invariant masses and helicity angles describes the phase space. Second, it fixes the quantization axes of the <strong>external</strong> helicities. Helicity is the projection of a particle’s spin along its momentum, so its value depends on the frame in which it is evaluated.</p>
+<p>Because the <code>reference_topology</code> specifies a unique path from the initial state to the final-state particles, it defines the frame for each external helicity. The helicity indices on Wigner <span class="math inline">\(D\)</span>-functions and on couplings refer to those frames. A chain whose <code>topology</code> coincides with the reference is already written in these frames. A chain with a different topology is evaluated in its own local frames and then aligned to the reference by Wigner rotations on the external lines (<a href="https://inspirehep.net/literature/2827198">Habermann and Mikhasenko, <em>Wigner rotations for cascade reactions</em></a>).</p>
+<section id="amplitude-of-a-cascade-chain" class="level3">
+<h3 class="anchored" data-anchor-id="amplitude-of-a-cascade-chain">Amplitude of a cascade chain</h3>
+<p>For one chain, the external-helicity amplitude has the factorization</p>
+<p><span class="math display">\[
+A_{\lambda_{\mathrm{ext}}}(\tau) =
+\sqrt{\prod_R (2J_R+1)}\;
+\prod_R P_R(\sigma_R)\;
+\sum_{\lambda_{\mathrm{int}}}
+\prod_v
+D^{J_0*}_{\lambda_0,\,\lambda_1-\lambda_2}(\phi_v,\theta_v,0)\,
+H^v_{\lambda_1\lambda_2}(\tau).
+\]</span></p>
+<ul>
+<li><span class="math inline">\(R\)</span> runs over <strong>internal lines</strong> (propagating resonances). <span class="math inline">\(P_R(\sigma_R)\)</span> is the lineshape evaluated at the invariant mass squared of that line. The root and the final-state lines have no propagator. The factor <span class="math inline">\(\sqrt{2J_R+1}\)</span> is a spin normalization for each internal line.</li>
+<li><span class="math inline">\(v\)</span> runs over <strong>binary vertices</strong>. At vertex <span class="math inline">\(v\)</span>, line <span class="math inline">\(0\)</span> is the parent and lines <span class="math inline">\(1,2\)</span> are the ordered children. <span class="math inline">\((\phi_v,\theta_v)\)</span> are the polar angles of child 1 in the parent rest frame. The third Euler angle is zero.</li>
+<li>The sum is over helicities on the internal lines. The free indices <span class="math inline">\(\lambda_{\mathrm{ext}}\)</span> are the helicities of the final-state particles and of the root.</li>
+</ul>
+<p>The helicity coupling <span class="math inline">\(H\)</span> used in this product is not identical to the recoupling <span class="math inline">\(h\)</span> stored in the vertex (see <a href="#vertices">Vertices</a>). Following the Jacob–Wick particle-2 convention,</p>
+<p><span class="math display">\[
+H_{\lambda_1\lambda_2} =
+h_{\lambda_1\lambda_2}\,
+(-1)^{j_2-\lambda_2}\,
+F_v(m_0^2,m_1^2,m_2^2),
+\]</span></p>
+<p>where <span class="math inline">\(j_2\)</span> is the spin of child 2 (the right-hand entry in the bracket) and <span class="math inline">\(F_v\)</span> is an optional vertex form factor. Parity and <span class="math inline">\(LS\)</span> relations apply to <span class="math inline">\(h\)</span>, before this phase.</p>
+</section>
+<section id="an-example-of-a-four-body-decay" class="level3">
+<h3 class="anchored" data-anchor-id="an-example-of-a-four-body-decay">An example of a four-body decay</h3>
+<p>As an example, consider the four-body topology <code>[[[3,1],4],2]</code>. The nested arrays give both the decay sequence and the rest frames in which the helicities are defined:</p>
+<pre class="text"><code>        0
+       / \
+  [[3,1],4]  2
+     / \
+  [3,1]  4
+   / \
+  3   1</code></pre>
+<p>The three vertices, in root-first order, are <code>[[[3,1],4],2]</code>, <code>[[3,1],4]</code>, and <code>[3,1]</code>. The two internal lines are <code>[[3,1],4]</code> and <code>[3,1]</code>. Expanding the product above,</p>
+<p><span class="math display">\[
+\begin{aligned}
+A_{m_0\lambda_1\lambda_2\lambda_3\lambda_4}
+&amp;= n_{j_{[[3,1],4]}}\, n_{j_{[3,1]}}\,
+   P_{[[3,1],4]}\, P_{[3,1]} \\
+&amp;\quad\times \sum_{\tau,\nu}
+D^{j_0*}_{m_0,\,\tau-\lambda_2}(\phi,\theta,0)\,
+H_{\tau\lambda_2}
+\\
+&amp;\quad\times
+D^{j_{[[3,1],4]}*}_{\tau,\,\nu-\lambda_4}(\phi,\theta,0)\,
+H_{\nu\lambda_4}
+\\
+&amp;\quad\times
+D^{j_{[3,1]}*}_{\nu,\,\lambda_3-\lambda_1}(\phi,\theta,0)\,
+H_{\lambda_3\lambda_1},
+\end{aligned}
+\]</span></p>
+<p>with <span class="math inline">\(n_j=\sqrt{2j+1}\)</span>. The three <span class="math inline">\(D^*\)</span> factors are the local rotations at <code>[[[3,1],4],2]</code>, <code>[[3,1],4]</code>, and <code>[3,1]</code>, respectively.</p>
+<ul>
+<li>At the root, particle 0 decays to the subsystem <code>[[3,1],4]</code> (helicity <span class="math inline">\(\tau\)</span>) and particle <code>2</code> (helicity <span class="math inline">\(\lambda_2\)</span>). The decay is evaluated in the overall rest frame. This is the first occurrence of <span class="math inline">\(\lambda_2\)</span>, so the helicity of particle <code>2</code> is defined in this frame. The index <span class="math inline">\(m_0\)</span> is the spin projection of the decaying particle; it is a canonical (rest-frame) projection, because particle 0 is at rest.</li>
+<li>At <code>[[3,1],4]</code>, that subsystem decays to <code>[3,1]</code> (helicity <span class="math inline">\(\nu\)</span>) and particle <code>4</code> (helicity <span class="math inline">\(\lambda_4\)</span>). The helicity of particle <code>4</code> is defined in the rest frame of <code>[[3,1],4]</code>, reached from the overall rest frame by a rotation and a boost along the decay sequence.</li>
+<li>At <code>[3,1]</code>, the remaining subsystem decays to particles <code>3</code> and <code>1</code>. Their helicities <span class="math inline">\(\lambda_3\)</span> and <span class="math inline">\(\lambda_1\)</span> are defined in the <code>[3,1]</code> rest frame, reached by the successive transformations from the overall center-of-momentum frame through <code>[[3,1],4]</code> to <code>[3,1]</code>.</li>
+</ul>
+</section>
+</section>
+<section id="chains-section" class="level2">
+<h2 class="anchored" data-anchor-id="chains-section">Chains section</h2>
+<p>The <code>chains</code> array lists the cascade sequences that contribute to the amplitude. The total amplitude is the coherent sum of the chain amplitudes, after each chain has been aligned to the <code>reference_topology</code>. Each element of <code>chains</code> is an object with:</p>
+<ul>
+<li><code>topology</code> — the ordered binary cascade of that chain;</li>
+<li><code>vertices</code> — one recoupling (and optional form factor) per two-body decay;</li>
+<li><code>propagators</code> — one lineshape per internal line;</li>
+<li><code>weight</code> — a complex coefficient multiplying the chain;</li>
+<li><code>name</code> — a label.</li>
+</ul>
+<section id="topology" class="level3">
+<h3 class="anchored" data-anchor-id="topology">Topology</h3>
+<p>The <code>topology</code> of a chain is the nested grouping of final-state indices that defines its decay sequence. It may coincide with the <code>reference_topology</code> or differ from it. If it differs, the external helicity axes of that chain must be aligned to the reference by Wigner rotations.</p>
+</section>
+<section id="vertices" class="level3">
+<h3 class="anchored" data-anchor-id="vertices">Vertices</h3>
+<p>Vertices are the nodes of the decay graph, at which one particle decays into two ordered children. Vertices with more than two decay products are not yet standardized. Each vertex is characterized by:</p>
+<ul>
+<li><p><strong><code>node</code>:</strong> The bracket address of the vertex: the nested array that names the two-body decay <span class="math inline">\(0\to 1+2\)</span>.</p></li>
+<li><p><strong><code>formfactor</code>:</strong> Optional name of a function <span class="math inline">\(F_v(m_0^2,m_1^2,m_2^2)\)</span>, defined in the <code>functions</code> section, evaluated at the event-dependent masses of the parent and the two children. An empty string means <span class="math inline">\(F_v=1\)</span>.</p></li>
+<li><p><strong><code>type</code>:</strong> Specifies how the recoupling amplitude <span class="math inline">\(h_{\lambda_1\lambda_2}\)</span> is computed. Three types are defined: <code>ls</code>, <code>parity</code>, and <code>helicity</code>. They relate helicity combinations to a real-valued recoupling coefficient. The helicity coupling in the chain amplitude is then <span class="math inline">\(H_{\lambda_1\lambda_2}=h_{\lambda_1\lambda_2}\,(-1)^{j_2-\lambda_2}\,F_v\)</span>.</p>
+<ul>
+<li><code>helicity</code> means no recoupling: the factor is <span class="math inline">\(1\)</span> for one selected helicity pair <span class="math inline">\((\lambda_1^0,\lambda_2^0)\)</span> and zero otherwise. <span class="math display">\[
+h^\text{helicity}(\lambda_1,\lambda_2|\lambda_1^0,\lambda_2^0) = \delta_{\lambda_1,\lambda_1^0}\delta_{\lambda_2,\lambda_2^0}
+\]</span></li>
+<li><code>parity</code> is non-zero for two helicity combinations: the selected pair <span class="math inline">\((\lambda_1^0,\lambda_2^0)\)</span> and the opposite pair <span class="math inline">\((-\lambda_1^0,-\lambda_2^0)\)</span>. The coefficient is <span class="math inline">\(1\)</span> for the selected pair and equal to the <code>parity_factor</code> for the opposite pair. <span class="math display">\[
+h^\text{parity}(\lambda_1,\lambda_2|\lambda_1^0,\lambda_2^0, f) =
+  \delta_{\lambda_1,\lambda_1^0}\delta_{\lambda_2,\lambda_2^0} + f \delta_{\lambda_1,-\lambda_1^0}\delta_{\lambda_2,-\lambda_2^0}
+\]</span></li>
+<li><code>ls</code> computes the recoupling from Clebsch–Gordan coefficients of the orbital angular momentum <span class="math inline">\(\ell\)</span> and the coupled spin <span class="math inline">\(s\)</span>: <span class="math display">\[
+\begin{aligned}
+h^\text{ls}(\lambda_1,\lambda_2|\ell,s,j_1,j_2,j_0)
+&amp;=
+  \sqrt{\frac{2\ell+1}{2j_0+1}}
+  \left\langle j_1,\lambda_1; j_2,-\lambda_2|s,\lambda_1-\lambda_2\right\rangle \\
+&amp;\quad\times
+  \left\langle \ell,0; s,\lambda_1-\lambda_2|j_0,\lambda_1-\lambda_2\right\rangle
+\end{aligned}
+\]</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="propagators" class="level3">
+<h3 class="anchored" data-anchor-id="propagators">Propagators</h3>
+<p>A propagator is attached to an <strong>internal line</strong>, not to the root or to a final-state particle. There is one propagator per internal line of the chain topology.</p>
+<ul>
+<li><p><strong><code>node</code>:</strong> The bracket address of the internal line: the nested array that names the propagating subsystem.</p></li>
+<li><p><strong><code>parametrization</code>:</strong> Names the lineshape <span class="math inline">\(P_R(\sigma_R)\)</span>. The name refers to a function defined in the <code>functions</code> section (for example a Breit–Wigner or Flatté resonance). The function is evaluated at the invariant mass squared of that line.</p></li>
+<li><p><strong><code>spin</code>:</strong> Spin <span class="math inline">\(J_R\)</span> of the propagating particle. It enters the Wigner <span class="math inline">\(D\)</span>-function at the decay of this line, the spin factor <span class="math inline">\(\sqrt{2J_R+1}\)</span>, and the selection rules of the attached vertices.</p></li>
+</ul>
+</section>
+<section id="weight" class="level3">
+<h3 class="anchored" data-anchor-id="weight">Weight</h3>
+<p>The <code>weight</code> of a chain is the complex coefficient that multiplies that chain’s matrix element. The total amplitude is the sum of the weighted, aligned chains, so the weights set both the strength of each chain and the interference between chains.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/RUB-EP1/amplitude-serialization/edit/main/docs/description.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/RUB-EP1/amplitude-serialization/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/RUB-EP1/amplitude-serialization/blob/main/docs/description.md" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
